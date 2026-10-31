@@ -1,0 +1,119 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Genius Academy | Topper Awards</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <div class="stars" id="stars"></div>
+
+  <header class="header">
+    <div class="brand">
+      <div class="logo">GA</div>
+      <div>
+        <h2>GENIUS ACADEMY</h2>
+        <p>LEARN • GROW • SHINE</p>
+      </div>
+    </div>
+    <button class="fullscreen-btn" id="fullscreenBtn">⛶ Full Screen</button>
+  </header>
+
+  <main>
+    <section class="hero">
+      <span class="tag">✦ STUDENT ACHIEVEMENT AWARDS ✦</span>
+      <h1>HALL OF <span>FAME</span></h1>
+      <p class="subtitle">Celebrating Excellence, Hard Work & Success</p>
+
+      <div class="controls">
+        <label for="classSelect">SELECT YOUR CLASS</label>
+        <select id="classSelect">
+          <option value="5">Class 5</option>
+          <option value="6">Class 6</option>
+          <option value="7">Class 7</option>
+          <option value="8" selected>Class 8</option>
+          <option value="9">Class 9</option>
+          <option value="10">Class 10</option>
+        </select>
+      </div>
+    </section>
+
+    <section class="award-section">
+      <div class="section-heading">
+        <span></span>
+        <h2>OUR TOP 3 CHAMPIONS</h2>
+        <span></span>
+      </div>
+
+      <p class="instruction" id="instruction">
+        Are you ready to celebrate our champions?
+      </p>
+
+      <div class="podium" id="podium">
+
+        <article class="winner second hidden" id="rank2">
+          <div class="medal silver">🥈</div>
+          <div class="photo" id="photo2">S</div>
+          <h3 id="name2">Student Name</h3>
+          <p class="rank-label">SECOND PLACE</p>
+          <div class="score">
+            <strong id="marks2">0/100</strong>
+            <span id="percent2">0%</span>
+          </div>
+          <div class="podium-base silver-base">02</div>
+        </article>
+
+        <article class="winner first hidden" id="rank1">
+          <div class="crown">👑</div>
+          <div class="medal gold">🏆</div>
+          <div class="photo" id="photo1">I</div>
+          <h3 id="name1">Student Name</h3>
+          <p class="rank-label">FIRST PLACE</p>
+          <div class="score">
+            <strong id="marks1">0/100</strong>
+            <span id="percent1">0%</span>
+          </div>
+          <div class="podium-base gold-base">01</div>
+        </article>
+
+        <article class="winner third hidden" id="rank3">
+          <div class="medal bronze">🥉</div>
+          <div class="photo" id="photo3">K</div>
+          <h3 id="name3">Student Name</h3>
+          <p class="rank-label">THIRD PLACE</p>
+          <div class="score">
+            <strong id="marks3">0/100</strong>
+            <span id="percent3">0%</span>
+          </div>
+          <div class="podium-base bronze-base">03</div>
+        </article>
+
+      </div>
+
+      <div class="action-area">
+        <button id="revealBtn" class="reveal-btn">
+          REVEAL 3RD RANK ✨
+        </button>
+        <button id="resetBtn" class="reset-btn">
+          ↻ Reset Presentation
+        </button>
+      </div>
+    </section>
+
+    <section class="footer-message">
+      <h2>Every Student is a Star! ⭐</h2>
+      <p>Success comes from dedication, discipline and hard work.</p>
+      <h3>— GENIUS ACADEMY —</h3>
+    </section>
+  </main>
+
+  <div id="confetti"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
