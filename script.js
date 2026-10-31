@@ -1,15 +1,16 @@
 
 // ======================================
 // GENIUS ACADEMY - TOPPER PRESENTATION
+// TOP 4 RANK SYSTEM
 // ======================================
 
 // STUDENT DATA
-// Yahan apne students ke naam aur marks change karo.
 
 const classData = {
   5: [],
   6: [],
   7: [],
+
   8: [
     {
       name: "SALMANI SHAD KHURSHID",
@@ -28,14 +29,27 @@ const classData = {
       marks: 123,
       total: 160,
       photo: ""
+    },
+    {
+      name: "Yadav Zeenal",
+      marks: 73,
+      total: 160,
+      photo: ""
     }
   ],
+
   9: [],
   10: []
 };
 
+// ======================================
 // REVEAL SETTINGS
-const revealOrder = [3, 2, 1];
+// ======================================
+
+// 4th -> 3rd -> 2nd -> 1st
+
+const revealOrder = [4, 3, 2, 1];
+
 let currentReveal = 0;
 let students = [];
 
@@ -49,31 +63,41 @@ const instruction = document.getElementById("instruction");
 // ======================================
 
 function loadClass() {
+
   const selectedClass = classSelect.value;
 
   students = [...(classData[selectedClass] || [])];
 
-  // Sort according to percentage
+  // Automatic percentage-based ranking
+
   students.sort((a, b) => {
-    return (b.marks / b.total) - (a.marks / a.total);
+
+    const percentageA = (a.marks / a.total) * 100;
+    const percentageB = (b.marks / b.total) * 100;
+
+    return percentageB - percentageA;
+
   });
 
   resetPresentation();
 
-  if (students.length < 3) {
+  if (students.length < 4) {
+
     instruction.textContent =
-      "Please add at least 3 students for this class.";
+      "Please add at least 4 students for this class.";
 
     revealBtn.disabled = true;
-    revealBtn.textContent = "ADD STUDENTS FIRST";
+    revealBtn.textContent = "ADD 4 STUDENTS FIRST";
+
     return;
   }
 
   revealBtn.disabled = false;
-  instruction.textContent =
-    `Class ${selectedClass} - Meet our Top 3 Champions!`;
 
-  revealBtn.textContent = "REVEAL 3RD RANK ✨";
+  instruction.textContent =
+    `Class ${selectedClass} - Meet our Top 4 Champions!`;
+
+  revealBtn.textContent = "REVEAL 4TH RANK ✨";
 }
 
 // ======================================
@@ -81,13 +105,20 @@ function loadClass() {
 // ======================================
 
 function showStudent(rank) {
+
   const student = students[rank - 1];
 
   if (!student) return;
 
   const photoBox = document.getElementById(`photo${rank}`);
 
-  // Show student initials by default
+  if (!photoBox) {
+    console.error(`photo${rank} element missing in HTML`);
+    return;
+  }
+
+  // Student initials
+
   photoBox.replaceChildren();
 
   const initials = student.name
@@ -98,9 +129,12 @@ function showStudent(rank) {
 
   photoBox.textContent = initials;
 
-  // Show photo if photo URL is available
+  // Student photo
+
   if (student.photo && student.photo.trim() !== "") {
+
     const img = document.createElement("img");
+
     img.src = student.photo;
     img.alt = student.name;
 
@@ -113,7 +147,8 @@ function showStudent(rank) {
     photoBox.appendChild(img);
   }
 
-  // Automatic percentage
+  // Calculate percentage
+
   const percentage =
     (student.marks / student.total) * 100;
 
@@ -127,7 +162,14 @@ function showStudent(rank) {
     `${percentage.toFixed(2)}%`;
 
   // Reveal animation
+
   const card = document.getElementById(`rank${rank}`);
+
+  if (!card) {
+    console.error(`rank${rank} element missing in HTML`);
+    return;
+  }
+
   card.classList.remove("hidden");
   card.classList.add("show");
 }
@@ -137,7 +179,10 @@ function showStudent(rank) {
 // ======================================
 
 function launchConfetti() {
+
   const container = document.getElementById("confetti");
+
+  if (!container) return;
 
   const colors = [
     "#FFD700",
@@ -148,11 +193,13 @@ function launchConfetti() {
   ];
 
   for (let i = 0; i < 100; i++) {
+
     const piece = document.createElement("div");
 
     piece.className = "confetti-piece";
 
     piece.style.left = Math.random() * 100 + "vw";
+
     piece.style.background =
       colors[Math.floor(Math.random() * colors.length)];
 
@@ -173,6 +220,7 @@ function launchConfetti() {
 // ======================================
 
 function revealNext() {
+
   if (currentReveal >= revealOrder.length) {
     return;
   }
@@ -180,32 +228,48 @@ function revealNext() {
   const rank = revealOrder[currentReveal];
 
   showStudent(rank);
+
   launchConfetti();
 
-  if (rank === 3) {
+  // Rank messages
+
+  if (rank === 4) {
+
+    instruction.textContent =
+      "🏅 Congratulations! Our Fourth Rank Champion!";
+
+  } else if (rank === 3) {
+
     instruction.textContent =
       "🥉 Congratulations! Our Third Rank Champion!";
-  }
 
-  if (rank === 2) {
+  } else if (rank === 2) {
+
     instruction.textContent =
       "🥈 Amazing! Here comes our Second Rank Champion!";
-  }
 
-  if (rank === 1) {
+  } else if (rank === 1) {
+
     instruction.textContent =
       "🏆 THE WINNER! Congratulations to our First Rank Champion!";
+
   }
 
   currentReveal++;
 
-  if (currentReveal < 3) {
+  // Next reveal button
+
+  if (currentReveal < revealOrder.length) {
+
     const nextRank = revealOrder[currentReveal];
 
     revealBtn.textContent =
       `REVEAL ${nextRank}${getSuffix(nextRank)} RANK ✨`;
+
   } else {
-    revealBtn.textContent = "🏆 ALL CHAMPIONS REVEALED!";
+
+    revealBtn.textContent = "🏆 ALL 4 CHAMPIONS REVEALED!";
+
     revealBtn.disabled = true;
   }
 }
@@ -215,9 +279,14 @@ function revealNext() {
 // ======================================
 
 function getSuffix(rank) {
+
   if (rank === 1) return "ST";
+
   if (rank === 2) return "ND";
-  return "RD";
+
+  if (rank === 3) return "RD";
+
+  return "TH";
 }
 
 // ======================================
@@ -225,23 +294,35 @@ function getSuffix(rank) {
 // ======================================
 
 function resetPresentation() {
+
   currentReveal = 0;
 
-  [1, 2, 3].forEach(rank => {
+  // Hide all 4 cards
+
+  [1, 2, 3, 4].forEach(rank => {
+
     const card = document.getElementById(`rank${rank}`);
 
-    card.classList.add("hidden");
-    card.classList.remove("show");
+    if (card) {
+
+      card.classList.add("hidden");
+      card.classList.remove("show");
+
+    }
   });
 
   instruction.textContent =
     "Are you ready to celebrate our champions?";
 
   revealBtn.disabled = false;
-  revealBtn.textContent = "REVEAL 3RD RANK ✨";
+
+  revealBtn.textContent = "REVEAL 4TH RANK ✨";
 
   const container = document.getElementById("confetti");
-  container.replaceChildren();
+
+  if (container) {
+    container.replaceChildren();
+  }
 }
 
 // ======================================
@@ -250,16 +331,27 @@ function resetPresentation() {
 
 document.getElementById("fullscreenBtn")
   .addEventListener("click", async () => {
+
     try {
+
       if (!document.fullscreenElement) {
+
         await document.documentElement.requestFullscreen();
+
       } else {
+
         await document.exitFullscreen();
+
       }
+
     } catch (error) {
+
       console.error("Fullscreen error:", error);
+
       alert("Fullscreen is not supported in this browser.");
+
     }
+
   });
 
 // ======================================
@@ -268,12 +360,12 @@ document.getElementById("fullscreenBtn")
 
 revealBtn.addEventListener("click", revealNext);
 
-resetBtn.addEventListener("click", () => {
-  resetPresentation();
-  loadClass();
-});
+resetBtn.addEventListener("click", loadClass);
 
+// ======================================
 // CLASS CHANGE EVENT
+// ======================================
+
 classSelect.addEventListener("change", loadClass);
 
 // ======================================
